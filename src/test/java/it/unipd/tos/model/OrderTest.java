@@ -62,19 +62,16 @@ public class OrderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void failUtenteNull() {
-        lista = new ArrayList<>();
         ordine = new Order(lista, null, LocalTime.NOON, 3.00);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void failOrarioNull() {
-        lista = new ArrayList<>();
         ordine = new Order(lista, utente, null, 3.00);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void failPrezzoNonValido() {
-        lista = new ArrayList<>();
         ordine = new Order(lista, utente, LocalTime.NOON, -2);
     }
 
