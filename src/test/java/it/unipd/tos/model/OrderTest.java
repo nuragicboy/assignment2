@@ -27,6 +27,8 @@ public class OrderTest {
 
     }
 
+
+
     @Test
     public void getOrarioTest() {
         assertEquals(43200,ordine.getOrario().toSecondOfDay());
@@ -47,6 +49,34 @@ public class OrderTest {
         assertEquals(3.00,ordine.getPrezzo(),0.01);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void failListaANull() {
+        ordine = new Order(null, utente, LocalTime.NOON, 3.00);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failListaVuota() {
+        lista = new ArrayList<>();
+        ordine = new Order(lista, utente, LocalTime.NOON, 3.00);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failUtenteNull() {
+        lista = new ArrayList<>();
+        ordine = new Order(lista, null, LocalTime.NOON, 3.00);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failOrarioNull() {
+        lista = new ArrayList<>();
+        ordine = new Order(lista, utente, null, 3.00);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failPrezzoNonValido() {
+        lista = new ArrayList<>();
+        ordine = new Order(lista, utente, LocalTime.NOON, -2);
+    }
 
 
 
