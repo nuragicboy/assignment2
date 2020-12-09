@@ -18,6 +18,21 @@ public class MenuItemTest {
         menuItem = new MenuItem(MenuItem.ItemType.Bevanda, "Lenticchie", 42.00);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void failTipo() {
+        menuItem = new MenuItem(null, "Lenticchie", 42.00);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failNome() {
+        menuItem = new MenuItem(MenuItem.ItemType.Bevanda, null, 42.00);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failPrezzo() {
+        menuItem = new MenuItem(MenuItem.ItemType.Bevanda, "Lenticchie", 0);
+    }
+
     @Test
     public void TestMetodoGetItemType(){
         Assert.assertEquals(MenuItem.ItemType.Bevanda,menuItem.getItemType());
