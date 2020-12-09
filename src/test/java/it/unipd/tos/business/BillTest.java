@@ -63,7 +63,6 @@ public class BillTest {
     }
 
 
-
     @Test
     public void TestScontoSuPiuDi5GelatiEconomici() throws TakeAwayBillException{
         lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa bella", 4.20));
@@ -106,7 +105,18 @@ public class BillTest {
         Assert.assertEquals(205.65,prezzo,0);
     }
 
+@Test
+    public void testListaConPiuDi30Elementi(){
+        for(int i=0; i<31;i++) {
+            lista.add(new MenuItem(MenuItem.ItemType.Gelato,"gelatone",10.00));
+        }
+    try{
+        prezzo = conto.getOrderPrice(lista,utente);
+    }catch(TakeAwayBillException e){
+        Assert.assertEquals("L'ordine non può contenere più di 30 elementi", e.getMessage());
+    }
 
+}
 
 
 }

@@ -22,6 +22,10 @@ public class Bill implements TakeAwayBill {
             throw new TakeAwayBillException("L'ordine contiene un elemento inesistente");
         }
 
+        if(itemsOrdered.size() > 30) {
+            throw new TakeAwayBillException("L'ordine non può contenere più di 30 elementi");
+        }
+
         for (MenuItem i : itemsOrdered) {
             totale += i.getPrice();
             if (MenuItem.ItemType.Gelato == i.getItemType()) {
