@@ -6,12 +6,17 @@ package it.unipd.tos.business;
 import it.unipd.tos.business.exception.TakeAwayBillException;
 import it.unipd.tos.model.MenuItem;
 import it.unipd.tos.model.User;
+import it.unipd.tos.model.Order;
+
+
 
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,6 +133,26 @@ public class BillTest {
         lista.add(new MenuItem(MenuItem.ItemType.Bevanda, "Cola", 1.00));
         prezzo = conto.getOrderPrice(lista,utente);
         Assert.assertEquals(7.50,prezzo,0.01);
+    }
+
+    @Test
+    public void ordiniGratisMinorennitra18e19Test() throws TakeAwayBillException{
+        List<Order> ordinazioni = new ArrayList<>();
+
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa Nafta", 1.00));
+        User utente;
+        for (int i = 0; i < 12; i++) {
+            utente = new User("Bobbe", "Malle", "bob "+i,15);
+            ordinazioni.add(new Order(lista, utente,   LocalTime.ofSecondOfDay(66600), conto.getOrderPrice(lista, utente)));
+        }
+
+        List<Order> ordinazioniFree = conto.getFreeBills(ordinazioni);
+
+        Assert.assertEquals(10, ordinazioniFree.size());
+
+        for (Order i : ordinazioniFree) {
+            Assert.assertEquals(0.0, i.getPrezzo(),0.01);
+        }
     }
 
 

@@ -3,10 +3,15 @@
 ////////////////////////////////////////////////////////////////////
 package it.unipd.tos.business;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Collections;
 import it.unipd.tos.model.MenuItem;
 import it.unipd.tos.model.User;
 import it.unipd.tos.business.exception.TakeAwayBillException;
+import it.unipd.tos.model.Order;
 
 public class Bill implements TakeAwayBill {
     public double getOrderPrice(List<MenuItem> itemsOrdered, User user) throws TakeAwayBillException {
@@ -44,7 +49,32 @@ public class Bill implements TakeAwayBill {
     if(totale-costoBevande>50) totale=totale*0.9;
     if(totale<10.0) totale+=0.5;
     return totale;
+    }
 
+    public List<Order> getFreeBills(List<Order> bills){
 
+        List<Order> omaggio = new ArrayList<>();
+
+        for (Order bill : bills) {
+
+            if (bill.getUtente().getEta() < 18 &&
+                    !omaggio.contains(bill) &&
+                    bill.getOrario().toSecondOfDay() > 64800 &&
+                    bill.getOrario().toSecondOfDay() < 68400) {
+                omaggio.add(bill);
+            }
+        }
+
+        if(omaggio.size()>10){
+            long seed = System.nanoTime();
+            Collections.shuffle(omaggio, new Random(seed));
+
+            omaggio = omaggio.subList(0, 10);
+            for (Order i : omaggio) {
+                i.setPrezzo(0.0);
+            }
+        }
+
+        return omaggio;
     }
 }
