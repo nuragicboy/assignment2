@@ -11,6 +11,7 @@ import it.unipd.tos.business.exception.TakeAwayBillException;
 public class Bill implements TakeAwayBill {
     public double getOrderPrice(List<MenuItem> itemsOrdered, User user) throws TakeAwayBillException {
         double totale = 0.0;
+        double costoBevande = 0.0;
         int numeroGelati = 0;
         MenuItem menoCaro = null;
 
@@ -26,8 +27,9 @@ public class Bill implements TakeAwayBill {
             if (MenuItem.ItemType.Gelato == i.getItemType()) {
                 numeroGelati++;
                 if (menoCaro == null || menoCaro.getPrice() > i.getPrice()) menoCaro = i;
-
-
+            }
+            if (MenuItem.ItemType.Bevanda == i.getItemType()) {
+                costoBevande+=i.getPrice();
             }
 
 
@@ -35,7 +37,7 @@ public class Bill implements TakeAwayBill {
                 totale -= 0.5 * menoCaro.getPrice();
             }
         }
-
+    if(totale-costoBevande>50) totale=totale*0.9;
     return totale;
 
 

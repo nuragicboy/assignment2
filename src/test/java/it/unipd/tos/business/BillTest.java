@@ -62,8 +62,40 @@ public class BillTest {
         prezzo = conto.getOrderPrice(lista,utente);
     }
 
+
+
     @Test
-    public void TestScontoSuPiuDi5Gelati() throws TakeAwayBillException{
+    public void TestScontoSuPiuDi5GelatiEconomici() throws TakeAwayBillException{
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa bella", 4.20));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa brutta", 4.10));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa da povery", 2.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppola", 4.40));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Cappolo", 4.50));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa Nafta", 4.60));
+        prezzo = conto.getOrderPrice(lista,utente);
+        Assert.assertEquals(22.8,prezzo,0.01);
+    }
+
+    public void TestScontoPer50euroDiCibo() throws TakeAwayBillException{
+
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppetta", 30.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Budino, "Pinguino", 30.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Bevanda, "Cola", 10.00));
+        prezzo = conto.getOrderPrice(lista,utente);
+        Assert.assertEquals(63.00,prezzo,0.01);
+    }
+
+    public void TestNoScontoPerMenoDi50euroDiCibo() throws TakeAwayBillException{
+
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppetta", 3.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Budino, "Pinguino", 3.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Bevanda, "Cola", 10.00));
+        prezzo = conto.getOrderPrice(lista,utente);
+        Assert.assertEquals(16.00,prezzo,0.01);
+    }
+
+@Test
+    public void TestScontoSuPiuDi5GelatiCostosie10percento() throws TakeAwayBillException{
         lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa bella", 42.00));
         lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa brutta", 41.00));
         lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa da povery", 21.00));
@@ -71,7 +103,7 @@ public class BillTest {
         lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Cappolo", 45.00));
         lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa Nafta", 46.00));
         prezzo = conto.getOrderPrice(lista,utente);
-        Assert.assertEquals(228.5,prezzo,0);
+        Assert.assertEquals(205.65,prezzo,0);
     }
 
 
