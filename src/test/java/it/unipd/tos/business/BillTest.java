@@ -62,6 +62,19 @@ public class BillTest {
         prezzo = conto.getOrderPrice(lista,utente);
     }
 
+    @Test
+    public void TestScontoSuPiuDi5Gelati() throws TakeAwayBillException{
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa bella", 42.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa brutta", 41.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa da povery", 21.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppola", 44.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Cappolo", 45.00));
+        lista.add(new MenuItem(MenuItem.ItemType.Gelato, "Coppa Nafta", 46.00));
+        prezzo = conto.getOrderPrice(lista,utente);
+        Assert.assertEquals(228.5,prezzo,0);
+    }
+
+
 
 
 }
