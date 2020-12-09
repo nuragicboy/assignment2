@@ -42,6 +42,7 @@ public class Bill implements TakeAwayBill {
             }
         }
     if(totale-costoBevande>50) totale=totale*0.9;
+    if(totale<10.0) totale+=0.5;
     return totale;
 
 
